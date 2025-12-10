@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+<h1>Muro de Publicaciones</h1>
+
+{% if current_user.is_authenticated %}
+<section>
+  <form action="{{ url_for('main.index') }}" method="post">
+    {{ form.hidden_tag() }}
+
+    <div>
+      <label for="title">{{ form.title.label }}</label>
+      <!-- Usamos 'or ""' para evitar que aparezca "None" en el input -->
+      <input type="text" id="title" name="title" placeholder="Escribe un título interesante..."
+        value="{{ form.title.data if form.title.data else '' }}">
+      {% for error in form.title.errors %}
+      <div class="error">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <div>
+      <label for="body">{{ form.body.label }}</label>
+      <!-- En textarea el valor va dentro de las etiquetas -->
+      <textarea id="body" name="body" rows="4"
+        placeholder="¿Qué estás pensando?">{{ form.body.data if form.body.data else '' }}</textarea>
+      {% for error in form.body.errors %}
+      <div class="error">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <button type="submit">Publicar Post</button>
+  </form>
+</section>
+{% else %}
+<div style="text-align: center; margin-bottom: 2rem; color: var(--text-muted);">
+  <p>¿Quieres compartir algo? <a href="{{ url_for('auth.login') }}">Inicia sesión</a> para escribir un post.</p>
+</div>
+{% endif %}
+
+<hr style="border-color: var(--border); margin: 2rem 0;">
+
+<section>
+  {% for p in posts %}
+  <article class="post-card">
+    <h2>{{ p.title }}</h2>
+    <div class="post-meta">
+      <span class="author">
+        <strong>Autoria:</strong> {{ p.author.username if p.author else 'Anónimo' }}
+      </span>
+      <span class="date">
+        {{ p.timestamp.strftime('%d-%m-%Y %H:%M') }}
+      </span>
+    </div>
+    <div class="post-body">{{ p.body }}</div>
+  </article>
+  {% else %}
+  <p style="text-align: center; color: var(--text-muted);">No hay publicaciones aún. ¡Sé el primero!</p>
+  {% endfor %}
+</section>
+{% endblock %}

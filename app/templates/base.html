@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Posteos en Flask{% endblock %}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-logo">
+      <a href="{{ url_for('main.index') }}" style="color: inherit;">Posteos en Flask</a>
+    </div>
+    <div class="nav-links">
+      <a href="{{ url_for('main.index') }}" class="btn-nav">Inicio</a>
+
+      {% if current_user.is_authenticated %}
+      <a href="{{ url_for('main.upload') }}" class="btn-nav">Subir</a>
+      <a href="{{ url_for('auth.logout') }}" class="btn-nav">Salir ({{ current_user.username }})</a>
+      {% else %}
+      <a href="{{ url_for('auth.login') }}" class="btn-nav">Entrar</a>
+      <a href="{{ url_for('auth.register') }}" class="btn-nav">Registrarse</a>
+      {% endif %}
+
+      <a href="{{ url_for('main.api_posts') }}" class="btn-nav">API</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class="flashes">
+      {% for category, message in messages %}
+      <li class="{{ 'error' if category == 'error' else '' }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </div>
+</body>
+
+</html>

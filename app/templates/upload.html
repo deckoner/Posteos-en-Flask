@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Subir Archivo{% endblock %}
+
+{% block content %}
+<h1>Subir Nuevo Archivo</h1>
+
+<form method="post" enctype="multipart/form-data">
+  {{ form.hidden_tag() }}
+
+  <div>
+    <label for="file">{{ form.file.label }}</label>
+    <input id="file" type="file" name="file">
+    {% for error in form.file.errors %}
+    <div class="error">{{ error }}</div>
+    {% endfor %}
+  </div>
+
+  <button type="submit">Subir Archivo</button>
+</form>
+
+<div
+  style="background: var(--card-bg); padding: 1.5rem; border-radius: var(--radius); border: 1px solid var(--border);">
+  <h2>Archivos Subidos</h2>
+  {% if files %}
+  <ul style="list-style: none; padding: 0;">
+    {% for file in files %}
+    <li
+      style="margin-bottom: 0.5rem; padding: 0.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+      <a href="{{ url_for('main.uploaded_file', filename=file) }}" target="_blank"
+        style="text-decoration: none; color: var(--primary);">{{ file }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p style="color: var(--text-muted);">No hay archivos subidos aún.</p>
+  {% endif %}
+</div>
+{% endblock %}
