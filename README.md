@@ -1,4 +1,4 @@
-# Flask Pruebas Project
+# Posteos En Flask
 Bienvenido al proyecto **Flask Pruebas**. Esta es una aplicación web construida con Flask que use para aprender a usar las diferentes tecnologias de Flask y pydoc para la documentacion.
 
 ## Características Principales
