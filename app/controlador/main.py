@@ -1,11 +1,12 @@
 import os
-from flask import render_template, request, redirect, url_for, flash, jsonify, send_from_directory, current_app
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, send_from_directory, current_app
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
-from . import bp
-from ..forms import PostForm, UploadForm
-from ..models import Post
-from .. import db
+from app import db
+from app.modelo.forms import PostForm, UploadForm
+from app.modelo.models import Post
+
+bp = Blueprint('main', __name__)
 
 @bp.route("/", methods=["GET", "POST"])
 def index():

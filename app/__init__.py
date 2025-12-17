@@ -23,7 +23,7 @@ def create_app(config_class=Config):
     Returns:
         app: La instancia de la aplicación Flask configurada.
     """
-    app = Flask(__name__, static_folder="static", template_folder="templates")
+    app = Flask(__name__, static_folder="static", template_folder="vista")
     app.config.from_object(config_class)
 
     # REINICIO DE BASE DE DATOS (Cada vez que arranca la app)
@@ -68,8 +68,8 @@ def create_app(config_class=Config):
 
     # Registrar Blueprints (módulos de la aplicación)
     # Esto separa las rutas en componentes lógicos.
-    from .auth import bp as auth_bp
-    from .main import bp as main_bp
+    from .controlador.auth import bp as auth_bp
+    from .controlador.main import bp as main_bp
     
     app.register_blueprint(auth_bp, url_prefix="/auth") # Rutas auth tendrán prefijo /auth
     app.register_blueprint(main_bp)                     # Rutas main estarán en la raíz /

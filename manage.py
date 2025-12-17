@@ -1,5 +1,5 @@
 from app import create_app, db
-from app.models import User, Post
+from app.modelo.models import User, Post
 
 # Crea la aplicación utilizando el factory
 app = create_app()
